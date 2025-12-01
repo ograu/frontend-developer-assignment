@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emails from "../assets/recipientsData.json";
 import { useDebouncedCallback } from "../hooks/useDebouncedCallback";
 import { getEmails } from "../lib/utils";
@@ -8,6 +8,8 @@ import { EmailList } from "./EmailList";
 export const EmailManager = () => {
   const [availableRecipients, setAvailableRecipients] = useState<string[]>([]);
   const [selectedRecipients, setSelectedRecipients] = useState<string[]>([]);
+  const [filteredRecipients, setFilteredRecipients] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const { availableRecipients, selectedRecipients } = getEmails(emails);
@@ -17,17 +19,28 @@ export const EmailManager = () => {
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
-    const filteredRecipients = emails
-      .filter(
-        (email) =>
-          !email.isSelected && email.email.toLowerCase().includes(query)
-      )
-      .map((email) => email.email);
-    setAvailableRecipients(filteredRecipients);
+    const filteredRecipients = availableRecipients.filter((email) =>
+      email.includes(query)
+    );
+    setFilteredRecipients(filteredRecipients);
   };
 
   const { debounced: debouncedHandleSearchChange } =
     useDebouncedCallback(handleSearchChange);
+
+  const selectRecipient = (recipient: string) => {
+    setAvailableRecipients((prev) =>
+      prev.filter((email) => email !== recipient)
+    );
+    setSelectedRecipients((prev) => [...prev, recipient]);
+  };
+
+  const deselectRecipient = (recipient: string) => {
+    setSelectedRecipients((prev) =>
+      prev.filter((email) => email !== recipient)
+    );
+    setAvailableRecipients((prev) => [...prev, recipient]);
+  };
 
   return (
     <div className="container mx-auto max-w-7xl px-4">
@@ -42,12 +55,31 @@ export const EmailManager = () => {
               placeholder="search"
               className="pl-7 pr-3 py-1 border rounded-md w-64"
               onChange={debouncedHandleSearchChange}
+              ref={inputRef}
             />
           </div>
-          <EmailList recipients={availableRecipients} />
+          <EmailList
+            recipients={
+              inputRef.current?.value?.length > 0
+                ? filteredRecipients
+                : availableRecipients
+            }
+            onClickRecipient={selectRecipient}
+            errorMessage={
+              inputRef.current?.value?.length > 0 &&
+              filteredRecipients.length === 0
+                ? "No recipients found"
+                : availableRecipients.length === 0
+                ? "No available recipients"
+                : ""
+            }
+          />
         </Box>
         <Box title="Selected recipients">
-          <EmailList recipients={selectedRecipients} />
+          <EmailList
+            recipients={selectedRecipients}
+            onClickRecipient={deselectRecipient}
+          />
         </Box>
       </div>
     </div>

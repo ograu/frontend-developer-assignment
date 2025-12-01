@@ -15,14 +15,14 @@ const App = () => (
     </header>
 
     {/* Main Content */}
-    <main className="flex-1 py-8">
+    <main className="flex-1 py-12">
       <EmailManager />
     </main>
 
     {/* Footer */}
     <footer className="border-t py-4">
       <div className="container mx-auto max-w-7xl px-4 text-center">
-        Oriol Grau
+        {/* Footer content can go here */}
       </div>
     </footer>
   </div>
