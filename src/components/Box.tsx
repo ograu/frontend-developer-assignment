@@ -1,8 +1,6 @@
 type Props = {
   children: React.ReactNode;
   title: string;
-  hasSearchInput?: boolean;
-  recipients: string[];
 };
 
 export const Box = ({ children, title }: Props) => (
