@@ -22,7 +22,7 @@ const App = () => (
     {/* Footer */}
     <footer className="border-t py-4">
       <div className="container mx-auto max-w-7xl px-4 text-center">
-        Footer content
+        Oriol Grau
       </div>
     </footer>
   </div>
