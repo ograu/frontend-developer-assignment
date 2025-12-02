@@ -15,7 +15,7 @@ const App = () => (
     </header>
 
     {/* Main Content */}
-    <main className="flex-1 py-12">
+    <main className="flex-1 py-8">
       <EmailManager />
     </main>
 
