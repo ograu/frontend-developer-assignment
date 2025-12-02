@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import * as utils from "../../lib/utils";
 import { EmailManager } from "./EmailManager";
+import * as utils from "./utils";
 
 it("renders recipients in its correspondant box", () => {
   jest.spyOn(utils, "getUIRecipients").mockImplementation(() => ({

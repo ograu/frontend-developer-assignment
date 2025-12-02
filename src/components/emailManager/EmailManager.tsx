@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import emails from "../../assets/recipientsData.json";
 import { useDebouncedCallback } from "../../hooks/useDebouncedCallback";
-import { getUIRecipients, processRecipients } from "../../lib/utils";
 import { Box } from "../ui/Box";
 import { Recipients } from "./Recipients";
 import { UIRecipients } from "./types";
+import { getUIRecipients, processRecipients } from "./utils";
 
 const UIRecipientsFactory = (): UIRecipients => ({
   companyRecipients: {},
