@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { EmailManager } from "./EmailManager";
 import * as utils from "./utils";
 
-it("renders recipients in its correspondant box", () => {
+it("renders recipients in their corresponding box", () => {
   jest.spyOn(utils, "getUIRecipients").mockImplementation(() => ({
     availableRecipients: [
       "hello@example.com",
@@ -67,7 +67,7 @@ it("selects recipient", async () => {
   ).not.toBeInTheDocument();
 });
 
-it("company recipients are grouped and can be selected all at once", async () => {
+it("groups company recipients and allows selecting them all at once", async () => {
   const user = userEvent.setup();
   jest.spyOn(utils, "getUIRecipients").mockImplementation(() => ({
     availableRecipients: ["hello@example.com", "goodbye@example.com"],
