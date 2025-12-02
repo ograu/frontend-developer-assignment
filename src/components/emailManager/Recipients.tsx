@@ -61,11 +61,13 @@ export const Recipients = ({
 
   return (
     <>
-      <CompanyRecipients
-        companyRecipients={companyRecipients}
-        onClickRecipient={onClickRecipient}
-        onClickCompany={handleOnClickCompany}
-      />
+      <div className="mb-4">
+        <CompanyRecipients
+          companyRecipients={companyRecipients}
+          onClickRecipient={onClickRecipient}
+          onClickCompany={handleOnClickCompany}
+        />
+      </div>
       <IndividualRecipients
         individualRecipients={individualRecipients}
         onClickRecipient={onClickRecipient}
