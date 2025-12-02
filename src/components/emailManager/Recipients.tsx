@@ -1,3 +1,4 @@
+import { UserMessage } from "../ui/UserMessage";
 import { CompanyRecipients } from "./CompanyRecipients";
 import { IndividualRecipients } from "./IndividualRecipients";
 import { UIRecipients } from "./types";
@@ -53,7 +54,7 @@ export const Recipients = ({
             />
           </div>
         </details>
-        {userMessage && <p className="text-red-500 mt-2">{userMessage}</p>}
+        <UserMessage message={userMessage} />
       </>
     );
   }
@@ -69,7 +70,7 @@ export const Recipients = ({
         individualRecipients={individualRecipients}
         onClickRecipient={onClickRecipient}
       />
-      {userMessage && <p className="text-red-500 mt-2">{userMessage}</p>}
+      <UserMessage message={userMessage} />
     </>
   );
 };
