@@ -36,13 +36,16 @@ export const EmailManager = () => {
     setSelectedUIRecipients(processRecipients(selectedEmails));
   }, [availableEmails, selectedEmails, filteredEmails]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value.toLowerCase();
+  const handleSearchChange = () => {
     const filteredRecipients = availableEmails.filter((email) =>
-      email.includes(query)
+      email.includes(inputRef.current?.value.toLowerCase() || "")
     );
     setFilteredEmails(filteredRecipients);
   };
+
+  useEffect(() => {
+    handleSearchChange();
+  }, [availableEmails]);
 
   const { debounced: debouncedHandleSearchChange } =
     useDebouncedCallback(handleSearchChange);
