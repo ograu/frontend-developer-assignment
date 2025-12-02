@@ -38,12 +38,8 @@ it("renders recipients in its correspondant box", () => {
 it("selects recipient", async () => {
   const user = userEvent.setup();
   jest.spyOn(utils, "getUIRecipients").mockImplementation(() => ({
-    availableRecipients: [
-      "hello@example.com",
-      "goodbye@example.com",
-      "another@email.com",
-    ],
-    selectedRecipients: ["hey@example.com"],
+    availableRecipients: ["hello@example.com"],
+    selectedRecipients: [],
   }));
 
   render(<EmailManager />);
@@ -69,4 +65,50 @@ it("selects recipient", async () => {
   expect(
     within(availableBox).queryByText("hello@example.com")
   ).not.toBeInTheDocument();
+});
+
+it("company recipients are grouped and can be selected all at once", async () => {
+  const user = userEvent.setup();
+  jest.spyOn(utils, "getUIRecipients").mockImplementation(() => ({
+    availableRecipients: ["hello@example.com", "goodbye@example.com"],
+    selectedRecipients: [],
+  }));
+
+  render(<EmailManager />);
+
+  const availableBox = screen
+    .getByText(/available recipients/i)
+    .closest("article");
+  const selectedBox = screen
+    .getByText(/selected recipients/i)
+    .closest("article");
+
+  expect(
+    within(availableBox).getByText("hello@example.com")
+  ).toBeInTheDocument();
+  expect(
+    within(availableBox).getByText("goodbye@example.com")
+  ).toBeInTheDocument();
+  expect(
+    within(selectedBox).queryByText("hello@example.com")
+  ).not.toBeInTheDocument();
+  expect(
+    within(selectedBox).queryByText("goodbye@example.com")
+  ).not.toBeInTheDocument();
+
+  const companySummary = within(availableBox).getByText("example.com");
+  await user.click(companySummary);
+
+  expect(
+    within(availableBox).queryByText("hello@example.com")
+  ).not.toBeInTheDocument();
+  expect(
+    within(availableBox).queryByText("goodbye@example.com")
+  ).not.toBeInTheDocument();
+  expect(
+    within(selectedBox).getByText("hello@example.com")
+  ).toBeInTheDocument();
+  expect(
+    within(selectedBox).getByText("goodbye@example.com")
+  ).toBeInTheDocument();
 });
