@@ -2,7 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import emails from "../../assets/recipientsData.json";
 import { useDebouncedCallback } from "../../hooks/useDebouncedCallback";
 import { Box } from "../ui/Box";
-import { Recipients } from "./Recipients";
+import { AddRecipientButton } from "./AddRecipientButton";
+import { AvailableRecipients } from "./AvailableRecipients";
+import { SelectedRecipients } from "./SelectedRecipients";
 import { getUIRecipients, processRecipients } from "./utils";
 
 export const EmailManager = () => {
@@ -115,7 +117,7 @@ export const EmailManager = () => {
               ref={inputRef}
             />
           </div>
-          <Recipients
+          <AvailableRecipients
             companyRecipients={availableUIRecipients.companyRecipients}
             individualRecipients={availableUIRecipients.individualRecipients}
             onClickRecipient={selectRecipient}
@@ -130,16 +132,14 @@ export const EmailManager = () => {
             }
           />
           {shouldShowAddOption && (
-            <button
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
-              onClick={addNewAvailableRecipient}
-            >
-              Add <i>{inputRef.current?.value}</i> to recipients
-            </button>
+            <AddRecipientButton
+              addNewAvailableRecipient={addNewAvailableRecipient}
+              value={inputRef.current?.value}
+            />
           )}
         </Box>
         <Box title="Selected recipients">
-          <Recipients
+          <SelectedRecipients
             companyRecipients={selectedUIRecipients.companyRecipients}
             individualRecipients={selectedUIRecipients.individualRecipients}
             onClickRecipient={deselectRecipient}
@@ -147,7 +147,6 @@ export const EmailManager = () => {
             userMessage={
               selectedEmails.length === 0 ? "No recipients selected" : ""
             }
-            isSelectedList
           />
         </Box>
       </div>
