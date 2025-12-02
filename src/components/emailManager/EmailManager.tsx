@@ -1,15 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import emails from "../../assets/recipientsData.json";
 import { useDebouncedCallback } from "../../hooks/useDebouncedCallback";
 import { Box } from "../ui/Box";
 import { Recipients } from "./Recipients";
-import { UIRecipients } from "./types";
 import { getUIRecipients, processRecipients } from "./utils";
-
-const UIRecipientsFactory = (): UIRecipients => ({
-  companyRecipients: {},
-  individualRecipients: [],
-});
 
 export const EmailManager = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true); // this is just to mimic an async data fetch
@@ -18,11 +12,6 @@ export const EmailManager = () => {
   const [filteredEmails, setFilteredEmails] = useState<string[]>();
   const [shouldShowAddOption, setShouldShowAddOption] =
     useState<boolean>(false);
-
-  const [availableUIRecipients, setAvailableUIRecipients] =
-    useState<UIRecipients>(UIRecipientsFactory());
-  const [selectedUIRecipients, setSelectedUIRecipients] =
-    useState<UIRecipients>(UIRecipientsFactory());
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -33,12 +22,15 @@ export const EmailManager = () => {
     setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    let availableList =
+  const availableUIRecipients = useMemo(() => {
+    const availableList =
       inputRef.current?.value?.length > 0 ? filteredEmails : availableEmails;
-    setAvailableUIRecipients(processRecipients(availableList));
-    setSelectedUIRecipients(processRecipients(selectedEmails));
-  }, [availableEmails, selectedEmails, filteredEmails]);
+    return processRecipients(availableList);
+  }, [availableEmails, filteredEmails]);
+
+  const selectedUIRecipients = useMemo(() => {
+    return processRecipients(selectedEmails);
+  }, [selectedEmails]);
 
   const handleSearchChange = () => {
     const value = inputRef.current?.value.toLowerCase();
