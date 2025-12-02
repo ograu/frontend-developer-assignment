@@ -1,26 +1,14 @@
-import { ReactComponent as TimescaleLogo } from "../assets/logo.svg";
+import { ErrorBoundary } from "react-error-boundary";
 import "../index.css";
 import { EmailManager } from "./emailManager/EmailManager";
+import { Layout } from "./ui/Layout";
 
 const App = () => (
-  <div className="flex flex-col min-h-screen">
-    <header className="border-b py-4">
-      <div className="container mx-auto max-w-7xl px-4">
-        <div className="flex flex-col gap-3 items-start sm:flex-row sm:justify-between sm:items-center">
-          <TimescaleLogo />
-          <h1 className="text-3xl font-bold">Frontend Assignment</h1>
-        </div>
-      </div>
-    </header>
-    <main className="flex-1 py-8">
+  <ErrorBoundary fallback={<div>Something went wrong</div>}>
+    <Layout>
       <EmailManager />
-    </main>
-    <footer className="border-t py-4">
-      <div className="container mx-auto max-w-7xl px-4 text-center">
-        {/* Footer content*/}
-      </div>
-    </footer>
-  </div>
+    </Layout>
+  </ErrorBoundary>
 );
 
 export default App;
