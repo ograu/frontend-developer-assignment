@@ -57,6 +57,26 @@ export const EmailManager = () => {
     setAvailableEmails((prev) => [...prev, recipient]);
   };
 
+  const selectCompany = (domain: string) => {
+    setSelectedEmails((prev) => [
+      ...prev,
+      ...availableEmails.filter((email) => email.endsWith(`@${domain}`)),
+    ]);
+    setAvailableEmails((prev) =>
+      prev.filter((email) => !email.endsWith(`@${domain}`))
+    );
+  };
+
+  const deselectCompany = (domain: string) => {
+    setAvailableEmails((prev) => [
+      ...prev,
+      ...selectedEmails.filter((email) => email.endsWith(`@${domain}`)),
+    ]);
+    setSelectedEmails((prev) =>
+      prev.filter((email) => !email.endsWith(`@${domain}`))
+    );
+  };
+
   return (
     <div className="container mx-auto max-w-7xl px-4">
       <div className="flex flex-col gap-6 sm:flex-row sm:justify-center">
@@ -77,6 +97,7 @@ export const EmailManager = () => {
             companyRecipients={availableUIRecipients.companyRecipients}
             individualRecipients={availableUIRecipients.individualRecipients}
             onClickRecipient={selectRecipient}
+            onClickCompany={selectCompany}
             errorMessage={
               inputRef.current?.value?.length > 0 &&
               filteredEmails?.length === 0
@@ -90,6 +111,10 @@ export const EmailManager = () => {
             companyRecipients={selectedUIRecipients.companyRecipients}
             individualRecipients={selectedUIRecipients.individualRecipients}
             onClickRecipient={deselectRecipient}
+            onClickCompany={deselectCompany}
+            errorMessage={
+              selectedEmails.length === 0 ? "No recipients selected" : ""
+            }
           />
         </Box>
       </div>

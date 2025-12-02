@@ -5,6 +5,7 @@ type Props = {
   companyRecipients: UIRecipients["companyRecipients"];
   individualRecipients: UIRecipients["individualRecipients"];
   onClickRecipient: (recipient: string) => void;
+  onClickCompany: (domain: string) => void;
   errorMessage?: string;
 };
 
@@ -12,20 +13,25 @@ export const Recipients = ({
   companyRecipients,
   individualRecipients,
   onClickRecipient,
+  onClickCompany,
   errorMessage,
 }: Props) => {
+  const handleOnClickCompany = (
+    event: React.MouseEvent<HTMLElement>,
+    domain: string
+  ) => {
+    event.preventDefault();
+    onClickCompany(domain);
+  };
+
   return (
     <>
       <ul>
         {Object.entries(companyRecipients).map(([domain, emails]) => (
           <li key={domain}>
-            <details className="cursor-pointer">
+            <details open className="cursor-pointer">
               <summary>
-                <strong
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                >
+                <strong onClick={(e) => handleOnClickCompany(e, domain)}>
                   {domain}
                 </strong>
               </summary>
