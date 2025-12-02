@@ -19,7 +19,7 @@ export const CompanyRecipients = ({
           <summary>
             <strong onClick={(e) => onClickCompany(e, domain)}>{domain}</strong>
           </summary>
-          <div className="pl-8 mb-4">
+          <div className="pl-8">
             <EmailList
               recipients={emails}
               onClickRecipient={onClickRecipient}
