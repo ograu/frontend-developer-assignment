@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import emails from "../../assets/recipientsData.json";
 import { useDebouncedCallback } from "../../hooks/useDebouncedCallback";
 import { Box } from "../ui/Box";
+import { SearchInput } from "../ui/SearchInput";
 import { AddRecipientButton } from "./AddRecipientButton";
 import { AvailableRecipients } from "./AvailableRecipients";
 import { SelectedRecipients } from "./SelectedRecipients";
@@ -105,18 +106,7 @@ export const EmailManager = () => {
     <div className="container mx-auto max-w-7xl px-4">
       <div className="flex flex-col gap-6 sm:flex-row sm:justify-center">
         <Box title="Available recipients">
-          <div className="absolute top-8 left-6">
-            <span className="absolute top-[8px] left-[8px] text-[0.8rem]">
-              🔍
-            </span>
-            <input
-              type="text"
-              placeholder="search"
-              className="pl-7 pr-3 py-1 border rounded-2xl w-64"
-              onChange={debouncedHandleSearchChange}
-              ref={inputRef}
-            />
-          </div>
+          <SearchInput onChange={debouncedHandleSearchChange} ref={inputRef} />
           <AvailableRecipients
             companyRecipients={availableUIRecipients.companyRecipients}
             individualRecipients={availableUIRecipients.individualRecipients}
