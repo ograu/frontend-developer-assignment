@@ -7,7 +7,7 @@ type Props = {
   individualRecipients: UIRecipients["individualRecipients"];
   onClickRecipient: (recipient: string) => void;
   onClickCompany: (domain: string) => void;
-  errorMessage?: string;
+  userMessage?: string;
   isSelectedList?: boolean;
 };
 
@@ -16,7 +16,7 @@ export const Recipients = ({
   individualRecipients,
   onClickRecipient,
   onClickCompany,
-  errorMessage,
+  userMessage,
   isSelectedList = false,
 }: Props) => {
   const handleOnClickCompany = (
@@ -53,7 +53,7 @@ export const Recipients = ({
             />
           </div>
         </details>
-        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+        {userMessage && <p className="text-red-500 mt-2">{userMessage}</p>}
       </>
     );
   }
@@ -69,7 +69,7 @@ export const Recipients = ({
         individualRecipients={individualRecipients}
         onClickRecipient={onClickRecipient}
       />
-      {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+      {userMessage && <p className="text-red-500 mt-2">{userMessage}</p>}
     </>
   );
 };

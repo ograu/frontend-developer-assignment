@@ -12,6 +12,7 @@ const UIRecipientsFactory = (): UIRecipients => ({
 });
 
 export const EmailManager = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true); // this is just to mimic an async data fetch
   const [availableEmails, setAvailableEmails] = useState<string[]>([]);
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
   const [filteredEmails, setFilteredEmails] = useState<string[]>();
@@ -29,6 +30,7 @@ export const EmailManager = () => {
     const { availableRecipients, selectedRecipients } = getUIRecipients(emails);
     setAvailableEmails(availableRecipients);
     setSelectedEmails(selectedRecipients);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -101,6 +103,10 @@ export const EmailManager = () => {
     setShouldShowAddOption(false);
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container mx-auto max-w-7xl px-4">
       <div className="flex flex-col gap-6 sm:flex-row sm:justify-center">
@@ -122,7 +128,7 @@ export const EmailManager = () => {
             individualRecipients={availableUIRecipients.individualRecipients}
             onClickRecipient={selectRecipient}
             onClickCompany={selectCompany}
-            errorMessage={
+            userMessage={
               inputRef.current?.value?.length > 0 &&
               filteredEmails?.length === 0
                 ? "No recipients found"
@@ -144,7 +150,7 @@ export const EmailManager = () => {
             individualRecipients={selectedUIRecipients.individualRecipients}
             onClickRecipient={deselectRecipient}
             onClickCompany={deselectCompany}
-            errorMessage={
+            userMessage={
               selectedEmails.length === 0 ? "No recipients selected" : ""
             }
             isSelectedList
