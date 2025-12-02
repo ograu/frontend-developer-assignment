@@ -1,4 +1,5 @@
-import { EmailList } from "./EmailList";
+import { CompanyRecipients } from "./CompanyRecipients";
+import { IndividualRecipients } from "./IndividualRecipients";
 import { UIRecipients } from "./types";
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   onClickRecipient: (recipient: string) => void;
   onClickCompany: (domain: string) => void;
   errorMessage?: string;
+  isSelectedList?: boolean;
 };
 
 export const Recipients = ({
@@ -15,6 +17,7 @@ export const Recipients = ({
   onClickRecipient,
   onClickCompany,
   errorMessage,
+  isSelectedList = false,
 }: Props) => {
   const handleOnClickCompany = (
     event: React.MouseEvent<HTMLElement>,
@@ -24,34 +27,48 @@ export const Recipients = ({
     onClickCompany(domain);
   };
 
+  if (isSelectedList) {
+    return (
+      <>
+        <details className="cursor-pointer mb-5">
+          <summary>
+            <strong>company recipients</strong>
+          </summary>
+          <div className="pl-8 mb-4">
+            <CompanyRecipients
+              companyRecipients={companyRecipients}
+              onClickRecipient={onClickRecipient}
+              onClickCompany={handleOnClickCompany}
+            />
+          </div>
+        </details>
+        <details className="cursor-pointer">
+          <summary>
+            <strong>email recipients</strong>
+          </summary>
+          <div className="pl-8 mb-4">
+            <IndividualRecipients
+              individualRecipients={individualRecipients}
+              onClickRecipient={onClickRecipient}
+            />
+          </div>
+        </details>
+        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+      </>
+    );
+  }
+
   return (
     <>
-      <ul>
-        {Object.entries(companyRecipients).map(([domain, emails]) => (
-          <li key={domain}>
-            <details open className="cursor-pointer">
-              <summary>
-                <strong onClick={(e) => handleOnClickCompany(e, domain)}>
-                  {domain}
-                </strong>
-              </summary>
-              <div className="pl-8 mb-4">
-                <EmailList
-                  recipients={emails}
-                  onClickRecipient={onClickRecipient}
-                />
-              </div>
-            </details>
-          </li>
-        ))}
-      </ul>
-
-      <div className="pl-3.5 mb-2">
-        <EmailList
-          recipients={individualRecipients}
-          onClickRecipient={onClickRecipient}
-        />
-      </div>
+      <CompanyRecipients
+        companyRecipients={companyRecipients}
+        onClickRecipient={onClickRecipient}
+        onClickCompany={handleOnClickCompany}
+      />
+      <IndividualRecipients
+        individualRecipients={individualRecipients}
+        onClickRecipient={onClickRecipient}
+      />
       {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
     </>
   );

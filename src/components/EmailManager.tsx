@@ -115,6 +115,7 @@ export const EmailManager = () => {
             errorMessage={
               selectedEmails.length === 0 ? "No recipients selected" : ""
             }
+            isSelectedList
           />
         </Box>
       </div>
