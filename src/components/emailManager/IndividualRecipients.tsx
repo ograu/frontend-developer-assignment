@@ -10,7 +10,7 @@ export const IndividualRecipients = ({
   individualRecipients,
   onClickRecipient,
 }: Props) => (
-  <div className="pl-3.5 mb-2" data-testid="individual-recipients-list">
+  <div className="pl-3.5 mb-2">
     <RecipientList
       recipients={individualRecipients}
       onClickRecipient={onClickRecipient}

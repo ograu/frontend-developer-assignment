@@ -121,8 +121,10 @@ export const EmailManager = () => {
             onClickRecipient={selectRecipient}
             onClickCompany={selectCompany}
             userMessage={
-              inputRef.current?.value?.length > 0 &&
-              filteredEmails?.length === 0
+              availableEmails.length === 0
+                ? "No recipients available"
+                : inputRef.current?.value?.length > 0 &&
+                  filteredEmails?.length === 0
                 ? "No recipients found"
                 : ""
             }
