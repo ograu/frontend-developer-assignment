@@ -1,4 +1,4 @@
-import { APIRecipient, UIRecipients } from "@/components/types";
+import { APIRecipient, UIRecipients } from "@/components/emailManager/types";
 
 export const getUIRecipients = (apiRecipients: APIRecipient[]) => {
   const availableRecipients = apiRecipients

@@ -1,4 +1,4 @@
-import { EmailList } from "./EmailList";
+import { RecipientList } from "./RecipientList";
 import { UIRecipients } from "./types";
 
 type Props = {
@@ -20,7 +20,7 @@ export const CompanyRecipients = ({
             <strong onClick={(e) => onClickCompany(e, domain)}>{domain}</strong>
           </summary>
           <div className="pl-8">
-            <EmailList
+            <RecipientList
               recipients={emails}
               onClickRecipient={onClickRecipient}
             />

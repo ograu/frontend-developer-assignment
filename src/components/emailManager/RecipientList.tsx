@@ -3,7 +3,7 @@ type Props = {
   onClickRecipient: (recipient: string) => void;
 };
 
-export const EmailList = ({ recipients, onClickRecipient }: Props) => (
+export const RecipientList = ({ recipients, onClickRecipient }: Props) => (
   <ul>
     {recipients.map((email) => (
       <li

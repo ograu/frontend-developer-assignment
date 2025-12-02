@@ -1,4 +1,4 @@
-import { EmailList } from "./EmailList";
+import { RecipientList } from "./RecipientList";
 import { UIRecipients } from "./types";
 
 type Props = {
@@ -10,8 +10,8 @@ export const IndividualRecipients = ({
   individualRecipients,
   onClickRecipient,
 }: Props) => (
-  <div className="pl-3.5 mb-2">
-    <EmailList
+  <div className="pl-3.5 mb-2" data-testid="individual-recipients-list">
+    <RecipientList
       recipients={individualRecipients}
       onClickRecipient={onClickRecipient}
     />

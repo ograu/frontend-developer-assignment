@@ -1,6 +1,6 @@
 import { ReactComponent as TimescaleLogo } from "../assets/logo.svg";
 import "../index.css";
-import { EmailManager } from "./EmailManager";
+import { EmailManager } from "./emailManager/EmailManager";
 
 const App = () => (
   <div className="flex flex-col min-h-screen">
