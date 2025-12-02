@@ -3,7 +3,7 @@ import emails from "../assets/recipientsData.json";
 import { useDebouncedCallback } from "../hooks/useDebouncedCallback";
 import { getUIRecipients, processRecipients } from "../lib/utils";
 import { Box } from "./Box";
-import { EmailList } from "./EmailList";
+import { Recipients } from "./Recipients";
 import { UIRecipients } from "./types";
 
 const UIRecipientsFactory = (): UIRecipients => ({
@@ -12,9 +12,9 @@ const UIRecipientsFactory = (): UIRecipients => ({
 });
 
 export const EmailManager = () => {
-  const [availableRecipients, setAvailableRecipients] = useState<string[]>([]);
-  const [selectedRecipients, setSelectedRecipients] = useState<string[]>([]);
-  const [filteredRecipients, setFilteredRecipients] = useState<string[]>();
+  const [availableEmails, setAvailableEmails] = useState<string[]>([]);
+  const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+  const [filteredEmails, setFilteredEmails] = useState<string[]>();
 
   const [availableUIRecipients, setAvailableUIRecipients] =
     useState<UIRecipients>(UIRecipientsFactory());
@@ -25,42 +25,36 @@ export const EmailManager = () => {
 
   useEffect(() => {
     const { availableRecipients, selectedRecipients } = getUIRecipients(emails);
-    setAvailableRecipients(availableRecipients);
-    setSelectedRecipients(selectedRecipients);
+    setAvailableEmails(availableRecipients);
+    setSelectedEmails(selectedRecipients);
   }, []);
 
   useEffect(() => {
-    let availableEmails =
-      inputRef.current?.value?.length > 0
-        ? filteredRecipients
-        : availableRecipients;
-    setAvailableUIRecipients(processRecipients(availableEmails));
-    setSelectedUIRecipients(processRecipients(selectedRecipients));
-  }, [availableRecipients, selectedRecipients, filteredRecipients]);
+    let availableList =
+      inputRef.current?.value?.length > 0 ? filteredEmails : availableEmails;
+    setAvailableUIRecipients(processRecipients(availableList));
+    setSelectedUIRecipients(processRecipients(selectedEmails));
+  }, [availableEmails, selectedEmails, filteredEmails]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
-    const filteredRecipients = availableRecipients.filter((email) =>
+    const filteredRecipients = availableEmails.filter((email) =>
       email.includes(query)
     );
-    setFilteredRecipients(filteredRecipients);
+    setFilteredEmails(filteredRecipients);
   };
 
   const { debounced: debouncedHandleSearchChange } =
     useDebouncedCallback(handleSearchChange);
 
   const selectRecipient = (recipient: string) => {
-    setAvailableRecipients((prev) =>
-      prev.filter((email) => email !== recipient)
-    );
-    setSelectedRecipients((prev) => [...prev, recipient]);
+    setAvailableEmails((prev) => prev.filter((email) => email !== recipient));
+    setSelectedEmails((prev) => [...prev, recipient]);
   };
 
   const deselectRecipient = (recipient: string) => {
-    setSelectedRecipients((prev) =>
-      prev.filter((email) => email !== recipient)
-    );
-    setAvailableRecipients((prev) => [...prev, recipient]);
+    setSelectedEmails((prev) => prev.filter((email) => email !== recipient));
+    setAvailableEmails((prev) => [...prev, recipient]);
   };
 
   return (
@@ -79,20 +73,20 @@ export const EmailManager = () => {
               ref={inputRef}
             />
           </div>
-          <EmailList
+          <Recipients
             companyRecipients={availableUIRecipients.companyRecipients}
             individualRecipients={availableUIRecipients.individualRecipients}
             onClickRecipient={selectRecipient}
             errorMessage={
               inputRef.current?.value?.length > 0 &&
-              filteredRecipients?.length === 0
+              filteredEmails?.length === 0
                 ? "No recipients found"
                 : ""
             }
           />
         </Box>
         <Box title="Selected recipients">
-          <EmailList
+          <Recipients
             companyRecipients={selectedUIRecipients.companyRecipients}
             individualRecipients={selectedUIRecipients.individualRecipients}
             onClickRecipient={deselectRecipient}
