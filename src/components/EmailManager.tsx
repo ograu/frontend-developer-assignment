@@ -15,6 +15,8 @@ export const EmailManager = () => {
   const [availableEmails, setAvailableEmails] = useState<string[]>([]);
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
   const [filteredEmails, setFilteredEmails] = useState<string[]>();
+  const [shouldShowAddOption, setShouldShowAddOption] =
+    useState<boolean>(false);
 
   const [availableUIRecipients, setAvailableUIRecipients] =
     useState<UIRecipients>(UIRecipientsFactory());
@@ -37,9 +39,23 @@ export const EmailManager = () => {
   }, [availableEmails, selectedEmails, filteredEmails]);
 
   const handleSearchChange = () => {
+    const value = inputRef.current?.value.toLowerCase();
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
     const filteredRecipients = availableEmails.filter((email) =>
-      email.includes(inputRef.current?.value.toLowerCase() || "")
+      email.includes(value)
     );
+
+    if (
+      filteredRecipients.length === 0 &&
+      isValidEmail &&
+      !selectedEmails.includes(value)
+    ) {
+      setShouldShowAddOption(true);
+    } else {
+      setShouldShowAddOption(false);
+    }
+
     setFilteredEmails(filteredRecipients);
   };
 
@@ -80,6 +96,11 @@ export const EmailManager = () => {
     );
   };
 
+  const addNewAvailableRecipient = () => {
+    setAvailableEmails((prev) => [...prev, inputRef.current?.value]);
+    setShouldShowAddOption(false);
+  };
+
   return (
     <div className="container mx-auto max-w-7xl px-4">
       <div className="flex flex-col gap-6 sm:flex-row sm:justify-center">
@@ -108,6 +129,14 @@ export const EmailManager = () => {
                 : ""
             }
           />
+          {shouldShowAddOption && (
+            <button
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
+              onClick={addNewAvailableRecipient}
+            >
+              Add <i>{inputRef.current?.value}</i> to recipients
+            </button>
+          )}
         </Box>
         <Box title="Selected recipients">
           <Recipients
