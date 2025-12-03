@@ -41,11 +41,11 @@ For this implementation, I've made the following assumptions:
 - Emails are grouped into company-domain blocks only when there is more than one email in their respective recipient boxes (available or selected).
 - Regarding nesting, I followed what I visually inferred from the wireframes. The available-recipients box has only one level of nesting, while the selected-recipients box has two levels.
 - I haven't used persistent storage or any state-management tool.
-- I decided to write some integration tests instead of unit tests because, in my opinion, they provide much more value for only a bit more effort.
+- I decided to write some integration tests instead of unit tests because they provide much more value for only a bit more effort, following the philosophy of React Testing Library and Kent C. Dodds’s testing trophy.
 
 Other than that:
 
 - I used TailwindCSS for styling, as it's the tool I've been using for the last couple of years.
 - I didn't use any component library, as I didn't need one to build this simple app.
 
-Also, please note that I’m aware that what’s currently in EmailManager.tsx could — and probably should — be split into different layers if the feature or app were larger: state management, API logic, helper functions, etc. I chose to keep everything within a single component because I believe this is the most appropriate approach given the size of the app. Since I don’t have any information about how it would evolve if it were a live product, I think the wisest decision is to keep things as simple as possible, and co-location helps a lot in that regard, in my opinion.
+Also, please note that I’m aware that what’s currently in `EmailManager.tsx` could — and probably should — be split into different layers if the feature or app were larger: state management, API logic, helper functions, etc. I chose to keep everything within a single component because I believe this is the most appropriate approach given the size of the app. Since I don’t have any information about how it would evolve if it were a live product, I think the wisest decision is to keep things as simple as possible, and co-location helps a lot in that regard, in my opinion.
